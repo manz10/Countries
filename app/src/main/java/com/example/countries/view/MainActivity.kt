@@ -27,11 +27,17 @@ class MainActivity : AppCompatActivity() {
             adapter = countriesAdapter
         }
 
+        swipeRefreshLayout.setOnRefreshListener {
+            swipeRefreshLayout.isRefreshing = false
+            viewModel.refresh()
+        }
+
         obeserveViewModel()
     }
 
     fun obeserveViewModel() {
         viewModel.countries.observe(this, Observer { countries ->
+            countriesList.visibility = View.VISIBLE
             countries?.let { countriesAdapter.updateCountries(it) }       //if countries is not null invoke following process
 
         })
